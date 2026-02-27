@@ -2,8 +2,11 @@ import { Component } from "solid-js"
 import { Dialog } from "@opencode-ai/ui/dialog"
 import { Tabs } from "@opencode-ai/ui/tabs"
 import { Icon } from "@opencode-ai/ui/icon"
+import { Button } from "@opencode-ai/ui/button"
 import { useLanguage } from "@/context/language"
 import { usePlatform } from "@/context/platform"
+import { DialogChangelog } from "@/components/dialog-changelog"
+import { useDialog } from "@opencode-ai/ui/context/dialog"
 import { SettingsGeneral } from "./settings-general"
 import { SettingsKeybinds } from "./settings-keybinds"
 import { SettingsProviders } from "./settings-providers"
@@ -13,6 +16,11 @@ import { SettingsArchive } from "./settings-archive"
 export const DialogSettings: Component = () => {
   const language = useLanguage()
   const platform = usePlatform()
+  const dialog = useDialog()
+
+  function handleShowChangelog() {
+    dialog.show(() => <DialogChangelog />)
+  }
 
   return (
     <Dialog size="x-large" transition>
@@ -63,6 +71,12 @@ export const DialogSettings: Component = () => {
             <div class="flex flex-col gap-1 pl-1 py-1 text-12-medium text-text-weak">
               <span>{language.t("app.name.desktop")}</span>
               <span class="text-11-regular">v{platform.version}</span>
+              <button
+                class="text-11-regular text-text-weak hover:text-text-base self-start"
+                onClick={handleShowChangelog}
+              >
+                Changelog
+              </button>
             </div>
           </div>
         </Tabs.List>
